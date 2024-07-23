@@ -1,0 +1,22 @@
+{% extends "food/base.html" %}
+
+{% block body %}
+
+<form method="POST">
+
+    {% csrf_token %}
+    <h1>This is the delete page</h1>
+
+    <h1>Are you sure you want to delete this Item :
+         <span style=color:red;>{{item.item_name}}</span>
+    </h1>
+
+    <button class = 'btn btn-danger' type='submit'>Confirm</button>
+
+    <a class = 'btn btn-dark' href="{% url "food:detail" item.id %}"> No </a>
+    
+</form>
+
+
+
+{% endblock %}

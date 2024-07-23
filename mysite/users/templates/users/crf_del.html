@@ -1,0 +1,25 @@
+{% extends 'food/base.html' %}
+
+{% block body %}
+
+
+
+
+
+<form method = 'POST'>
+    {% csrf_token %}
+
+    
+    <h1>Cust rating Id: {{ crfo.id }}</h1>
+    <h1>Cust Username: {{ crfo.username }}</h1>
+    <h1>Cust Prod Code: {{ crfo.prod_code }}</h1>
+    <h1>Cust Rating: {{ crfo.ratings }}</h1>
+    <h1>Cust Feedback: {{ crfo.feedback }}</h1>
+
+    <button class='btn btn-danger' type = 'submit'>Confirm</button>
+
+</form>
+
+<a class = 'btn btn-primary' href="{% url "food:detail" itemid %}">No</a>
+
+{% endblock %}

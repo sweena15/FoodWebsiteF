@@ -1,0 +1,64 @@
+{% extends "food/base.html" %}
+
+{% block body %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+            <div class="card">
+                <div class="card-header text-white bg-info">
+                    <div class="card-title">
+                        Register
+                    </div>
+                </div>
+                <div class="card-body">
+
+                    <form enctype = 'multipart/form-data' method="POST">
+                        {% csrf_token %}
+                    
+                        
+
+                        
+
+                        <label id = 'img' name ='img'> Image Upload: </label><br>
+                        {{ form.image }}
+                        <br><img src="{{ user.profile.image.url }}" height ='100px', width = '100px'>
+                        <img alt="" id="imgPreview" style="max-height: 200px; max-width: 200px;">
+
+                        <br><br><label> Location: </label><br>
+                        {{ form.location}}
+
+                        <br><br><label>User Type: </label><br>
+                        {{ form.user_type}}
+
+
+
+                        <br><br><button class='btn btn-warning' type='submit'>Confirm</button>
+                        <a class= 'btn btn-dark' href="{% url 'profile' %}">Back</a>
+                        <br>
+                    
+                    
+                    
+                    </form>
+
+
+                    
+                    
+                   
+
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+{% endblock  %}

@@ -1,0 +1,32 @@
+{% extends 'food/base.html' %}
+
+{% block body %}
+
+<br><br><br>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+            <div class="card">
+                <div class="card-header text-white bg-info">
+                    <div class="card-title text-center">
+                        Update Cart Quantity
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        {% csrf_token %}
+
+                        <br><label>Quantity: </label><br>
+                        {{ form.quantity }}
+
+                        <br><button class="btn btn-danger btn-sm" type="submit">Confirm</button>
+                        <a class='btn btn-dark mt-1' href="{% url "food:detail" itemid %}">Back</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

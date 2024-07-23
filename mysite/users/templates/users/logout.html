@@ -1,0 +1,31 @@
+{% extends "food/base.html" %}
+
+{% block body  %}
+
+<div class="container mt-5">
+    <div class="card text-center">
+        <div class="card-body">
+
+            <h1 class="card-title">Logout</h1>
+
+            <form method='POST' class="mt-4">
+
+                {% csrf_token %}
+
+                <h2>Are you sure you want to logout?</h2>
+
+                <button type='submit' class="btn btn-danger btn-lg mr-2">
+                    Yes
+                </button>
+
+                <a class='btn btn-dark btn-lg' href="{% url 'food:Index' %}">
+                    No
+                </a>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,8 @@
+{% extends 'food/base.html' %}
+
+{% block body %}
+
+<h1>This is the Payment success page for Order ID: {{ cartid }}</h1>
+<a class= "btn btn-success" href="{% url 'food:detail' itemid %}">Back to Cart</a>
+
+{% endblock %}

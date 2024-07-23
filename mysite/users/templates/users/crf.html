@@ -1,0 +1,23 @@
+{% extends 'food/base.html' %}
+
+{% block body %}
+
+<h1>This is feedback form</h1>
+
+<h2>
+    <p>Item id: {{ itemid }}</p>
+    <p>Prod Code: {{ pc }}</p>
+    <p>Username: {{ username }}</p>
+    <p>cart Id: {{ csrfid }}</p>
+</h2>
+
+{% comment %} Done till commit 85 on 28 Feb 24 {% endcomment %}
+<form method='POST'>
+    {% csrf_token %}
+
+    {{ form }}
+
+    <button class='btn btn-danger' type = 'submit'>Submit</button>
+</form>
+
+{% endblock %}

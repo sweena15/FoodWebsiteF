@@ -1,0 +1,399 @@
+{% extends "food/base.html" %}
+
+{% block body  %}
+
+<div class="row">
+    <div class="col-md-2 offset-md-1">
+        <img
+            height="150px"
+            width="250px"
+            class="card"
+            src="{{ item.item_image }}"
+        >
+    </div>
+
+    <div class="col-md-4 offset-md-1">
+        <h1
+            style="
+                font-style: italic;
+            "
+        >
+            {{ item.item_name }}
+        </h1>
+
+        <h2
+            style="
+                font-style: italic;
+                font-size: 1.3rem;
+                text-align: justify;
+            "
+        >
+            {{ item.item_desc }}
+        </h2>
+
+        <h3>
+            ${{ item.item_price }}
+        </h3>
+</div>
+
+
+    {% comment %} Admin open {% endcomment %}
+    {% if user.is_authenticated and user.profile.user_type == 'admin' %}
+        <div class="col-md-3 offset-md-1">
+            <a
+                href="{% url 'food:updateitem' item.id %}"
+                style="width:80px"
+                class="btn btn-warning"
+            >
+                Edit
+            </a>
+
+            <a
+                href="{% url 'food:deleteitem' item.id %}"
+                style="width:80px"
+                class="btn btn-danger"
+            >
+                Delete
+            </a>
+
+            <a
+                href="{% url 'food:Index' %}"
+                style="width:80px"
+                class="btn btn-success"
+            >
+                Back
+            </a>
+        </div>
+    
+    {% endif %}
+    {% comment %} Admin close {% endcomment %}
+
+    {% comment %} rest open {% endcomment %}
+    {% if user.is_authenticated and user.profile.user_type == 'rest' %}
+        <div class="col-md-3 offset-md-1">
+            <a
+                href="{% url 'food:updateitem' item.id %}"
+                style="width:80px"
+                class="btn btn-warning"
+            >
+                Edit
+            </a>
+
+            <a
+                href="{% url 'food:Index' %}"
+                style="width:80px"
+                class="btn btn-success"
+            >
+                Back
+            </a>
+        </div>
+    
+    {% endif %}
+    {% comment %} rest close {% endcomment %}
+
+         {% comment %} rest open {% endcomment %}
+    {% if user.is_authenticated and user.profile.user_type == 'cust' %}
+    <div class="col-md-3 offset-md-1">
+        <a
+            href="{% url 'users:cart' item.id item.prod_code user.username %}"
+            style="width:80px"
+            class="btn btn-warning"
+        >
+            Cart
+        </a>
+
+        <a
+            href="{% url 'food:Index' %}"
+            style="width:80px"
+            class="btn btn-success"
+        >
+            Back
+        </a>
+    </div>
+
+{% endif %}
+{% comment %} rest close {% endcomment %}
+
+
+</div>
+{% if user.is_authenticated %}
+
+    {% comment %} product updates open {% endcomment %}
+        {% if user.profile.user_type == 'admin' or user.profile.user_type == 'rest' or user.profile.user_type %}
+            {% for obj in history %}
+
+                <div
+                    class="row mb-1">
+            
+                    <div
+                        class="col-md-8
+                            offset-md-2
+                            bg-danger
+                            text-white">
+            
+                            <div
+                                class="row">
+            
+                                <div 
+                                    class="col-md-3 
+                                        text-left">
+            
+                                    {{ obj.username }}
+                                </div>
+            
+                                <div 
+                                    class="col-md-3 
+                                        text-left">
+            
+                                    {{ obj.prod_code }}
+                                </div>
+            
+                                <div 
+                                    class="col-md-3 
+                                        text-left">
+            
+                                    {{ obj.item_name }}
+                                </div>
+            
+                                <div 
+                                    class="col-md-3 
+                                        text-left">
+            
+                                    {{ obj.operation }}
+                                </div>
+                            </div>
+                    </div>
+            
+                    <div
+                        class="col-md-2">
+            
+                    </div>
+            
+                </div>
+        
+            {% endfor %}
+
+
+        {% endif %}
+    {% comment %} product updates close {% endcomment %}
+    
+
+    {% comment %} product cart open {% endcomment %}
+
+    {% if user.profile.user_type == 'rest' or user.profile.user_type == 'cust' or user.profile.user_type == 'admin' %}
+        {% for obj in occ %}
+
+            <div
+                class="row mb-1">
+
+                <div
+                    class="col-md-8
+                        offset-md-2
+                        bg-success
+                        text-white">
+
+                        <div
+                            class="row">
+
+                            <div 
+                                class="col-md-2
+                                    text-left">
+
+                                {{ obj.cart_id }}
+                            </div>
+
+                            <div 
+                                class="col-md-2 
+                                    text-left">
+
+                                {{ obj.prod_code }}
+                            </div>
+
+                            <div 
+                                class="col-md-2 
+                                    text-left">
+
+                                {{ obj.quantity }}
+                            </div>
+
+                            <div 
+                                class="col-md-2 
+                                    text-left">
+
+                                {{ obj.username }}
+                            </div>
+
+
+                            <div
+                                class="col-md-2 
+                                    text-left">
+
+                                {% if user.profile.user_type == 'cust' %}
+
+                                    <a href=" {% url 'users:cartupd' obj.cart_id item.id %} "
+                                    class = 'btn btn-warning btn-sm'>
+                                        Edit Quantity
+                                    </a>
+                                
+                    
+                                {% endif %}
+
+                            </div>
+
+                            <div
+                                class="col-md-2 
+                                    text-left">
+
+                                {% if user.profile.user_type == 'cust' %}
+
+                                    <a href="{% url 'users:buy' item.item_price obj.quantity obj.cart_id item.id %}"
+                                    class = 'btn btn-primary btn-sm'>
+                                        Buy Now
+                                    </a>
+                                
+                    
+                                {% endif %}
+
+                            </div>
+                        </div>
+                </div>
+
+                <div
+                    class="col-md-2">
+
+                </div>
+
+            </div>
+
+        {% endfor %}
+    {% endif %}
+
+{% comment %} product cart close {% endcomment %}
+
+{% comment %} product feedbacks/ratings open {% endcomment %}
+
+
+    {% if user.profile.user_type == 'cust' %}
+        <a class="btn btn-dark offset-md-5 mb-2" href="{% url 'users:crf' item.id item.prod_code user.username %}">
+            Add Ratings and Feedback
+        </a>
+    {% endif %}
+
+
+    {% if user.profile.user_type == 'rest' or user.profile.user_type == 'cust' or user.profile.user_type == 'admin' %}
+        {% for obj in crf %}
+
+            <div
+                class="row mb-1">
+
+                <div
+                    class="col-md-8
+                        offset-md-2
+                        bg-info
+                        text-white">
+
+                        <div
+                            class="row">
+
+                            <div 
+                                class="col-md-1 
+                                    text-left">
+
+                                {{ obj.prod_code }}
+                            </div>
+
+                            <div 
+                                class="col-md-1 
+                                    text-left">
+
+                                {{ obj.ratings }}
+                            </div>
+
+                            <div 
+                                class="col-md-2 
+                                    text-left">
+
+                                {{ obj.feedback }}
+                            </div>
+
+                            <div 
+                                class="col-md-2 
+                                    text-left">
+
+                                {{ obj.username }}
+                            </div>
+
+                            <div 
+                                class="col-md-2 
+                                    text-left">
+
+                                {{ obj.user_type }}
+                            </div>
+
+                            <div 
+                                class="col-md-2 
+                                    text-left">
+
+                                {% if obj.username == user.username %}
+                                    <a
+                                        class="btn btn-warning btn-sm"
+                                        href="{% url "users:crfupd" item.id obj.id %}">
+
+                                        Edit
+                                    </a>
+                                {% endif %}
+                            </div>
+
+                            <div 
+                                class="col-md-2 
+                                    text-left">
+
+                                {% if obj.username == user.username %}
+                                    <a
+                                        class="btn btn-primary btn-sm"
+                                        href="{% url "users:crfdel" item.id obj.id %}">
+
+                                        Delete
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                </div>
+
+                <div
+                    class="col-md-2">
+
+                </div>
+
+            </div>
+
+        {% endfor %}
+    {% endif %}
+
+{% comment %} product updates close {% endcomment %}
+
+{% comment %} placed orders open{% endcomment %}
+{% if user.profile.user_type == 'rest' or user.profile.user_type == 'cust' or user.profile.user_type == 'admin' %}
+        {% for obj in objpo %}
+            <div class="row mb-1">
+                <div class="col-md-8 offset-md-2 bg-secondary text-white">
+                    <div class="row">
+                        <div class="col-md-3 text-left">{{ obj.order_id }}</div>
+                        <div class="col-md-3 text-left">{{ obj.prod_code }}</div>
+                        <div class="col-md-3 text-left">{{ obj.quantity }}</div>
+                        <div class="col-md-3 text-left">{{ obj.user }}</div>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+        
+                </div>
+            </div>
+        {% endfor %}      
+    {% endif %}
+{% comment %} placed orders close {% endcomment %}
+    
+{% endif %}
+
+{% endblock %}
+
